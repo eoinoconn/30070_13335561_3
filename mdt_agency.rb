@@ -14,17 +14,11 @@ class MDT_Agency
     @female_players.push(player)
   end
 
-  def build_teams
+  def create_teams
     @teams = []
-    @male_players.sort! { |x, y| x.proficiency <=> y.proficiency }
-    @female_players.sort! { |x, y| x.min_desired_partner_proficiency <=> y.min_desired_partner_proficiency }
-    @female_players.zip(@male_players).each do |male, female|
-      if female.min_desired_partner_proficiency >= male.proficiency
-        @teams[female] = male
-      else
-        abort('no solution possible')
-      end
-    end
+    @male_players.sort! { |x, y| y.proficiency <=> x.proficiency }
+    @female_players.sort! { |x, y| y.proficiency <=> x.proficiency }
+    @teams = @female_players.zip(@male_players)
   end
 
   def to_s

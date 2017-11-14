@@ -20,6 +20,6 @@ IO.foreach('women.txt') do |line|
   agency.add_female_player(Player.new(name, proficiency, min_desired_partner_proficiency))
 end
 
-# agency.build_teams
+agency.create_teams
 string = agency.to_s
 puts(string)
