@@ -1,3 +1,4 @@
+require_relative 'team'
 
 class MDT_Agency
 
@@ -18,7 +19,9 @@ class MDT_Agency
     @teams = []
     @male_players.sort! { |x, y| y.proficiency <=> x.proficiency }
     @female_players.sort! { |x, y| y.proficiency <=> x.proficiency }
-    @teams = @female_players.zip(@male_players)
+    @female_players.zip(@male_players).each do |female, male|
+      @teams.push(Team.new(male, female))
+    end
   end
 
   def to_s
@@ -32,4 +35,11 @@ class MDT_Agency
     end
     str
   end
+
+  def teams_to_s
+    str = "Teams\n"
+    @teams.each { |team| str += team.to_s }
+    str
+  end
+
 end

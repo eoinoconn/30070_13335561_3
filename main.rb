@@ -23,3 +23,5 @@ end
 agency.create_teams
 string = agency.to_s
 puts(string)
+string = agency.teams_to_s
+puts(string)
