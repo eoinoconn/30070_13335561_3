@@ -25,3 +25,16 @@ string = agency.to_s
 puts(string)
 string = agency.teams_to_s
 puts(string)
+agency.each_player do |player|
+  if player.proficiency >= 9
+    puts(player.name)
+  end
+end
+# old_fitness = agency.list_fitness
+agency.improve_team
+# new_fitness = agency.teams_fitness
+# puts("old fitness\n#{old_fitness}\nNew fitness:\n#{new_fitness}")
+agency.steep
+string = agency.teams_to_s
+
+puts(string)
