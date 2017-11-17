@@ -20,21 +20,26 @@ IO.foreach('women.txt') do |line|
   agency.add_female_player(Player.new(name, proficiency, min_desired_partner_proficiency))
 end
 
-agency.create_teams
+# List players
 string = agency.to_s
 puts(string)
+
+# create teams
+agency.create_teams
+
+# Print teams
 string = agency.teams_to_s
 puts(string)
-agency.each_player do |player|
-  if player.proficiency >= 9
-    puts(player.name)
-  end
-end
-# old_fitness = agency.list_fitness
-agency.improve_team
-# new_fitness = agency.teams_fitness
-# puts("old fitness\n#{old_fitness}\nNew fitness:\n#{new_fitness}")
-agency.steep
-string = agency.teams_to_s
 
+# Print each player with a proficiency of 9 or greater
+agency.each_player { |player| puts(player.name) if player.proficiency >= 9}
+
+# Apply steepest_ascent
+old_fitness = agency.team_fitness
+agency.improve_teams
+new_fitness = agency.team_fitness
+puts("old fitness\n#{old_fitness}\nNew fitness:\n#{new_fitness}")
+
+# check that it worked
+string = agency.teams_to_s
 puts(string)

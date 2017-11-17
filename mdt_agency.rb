@@ -1,8 +1,10 @@
+# Class to represent agency, stores male players, female player and teams when created.
+# Extends SteepestAscent to utilise template method for creating better teams
 
 require_relative 'team'
+require_relative 'steepest_ascent'
 
-
-class MDT_Agency
+class MDT_Agency < SteepestAscent
 
   def initialize
     @male_players = []
@@ -19,42 +21,18 @@ class MDT_Agency
 
   def create_teams
     @teams = []
+    # sort players by descending proficiency
     @male_players.sort! { |x, y| y.proficiency <=> x.proficiency }
     @female_players.sort! { |x, y| y.proficiency <=> x.proficiency }
     @female_players.zip(@male_players).each do |female, male|
+      # create new array of teams
       @teams.push(Team.new(male, female))
     end
   end
 
-  def improve_team
-    fitness = list_fitness(@teams)
-    @teams.length.times do |x|
-      initial_male_player = @teams[x].male_player
-      swap = 0
-      @teams.length.times do |y|
-        if x == y
-          next
-        end
-        other_male_player = @teams[y].male_player
-        @teams[x].change_male_player(other_male_player)
-        @teams[y].change_male_player(initial_male_player)
-        new_fitness = list_fitness(@teams)
-        @teams[x].change_male_player(initial_male_player)
-        @teams[y].change_male_player(other_male_player)
-        if new_fitness > fitness
-          swap = y
-          fitness = new_fitness
-        end
-      end
-      if swap != 0
-        @teams[x].change_male_player(@teams[swap].male_player)
-        @teams[swap].change_male_player(initial_male_player)
-      end
-    end
-  end
 
-  def list_fitness(list)
-    list.inject(0) { |fitness, team| fitness + team.satisfaction }
+  def team_fitness
+    evaluate_fitness(@teams)
   end
 
   def to_s
@@ -75,6 +53,7 @@ class MDT_Agency
     str
   end
 
+  # iterator for each player
   def each_player
     @male_players.each do |male|
       yield male
@@ -84,20 +63,17 @@ class MDT_Agency
     end
   end
 
-  def steepest_ascent_hill(list)
-    fitness = list_fitness(list)
-    list.length.times do |x|
-      swap = 0
-      list.length.times do |y|
-        next if x == y
-        list = swap_spots(x, y, list)
-        new_fitness = list_fitness(list)
-        list = swap_spots(x, y, list)
-        swap, fitness = y, new_fitness if new_fitness > fitness
-      end
-      list = swap_spots(x, swap, list) if swap != 0
-    end
-    list
+
+  # improve teams using steepest ascent
+  def improve_teams
+    @teams = steepest_ascent_hill(@teams)
+  end
+
+  private
+
+  # implement methods to utilise template method
+  def evaluate_fitness(list)
+    list.inject(0) { |fitness, team| fitness + team.satisfaction }
   end
 
   def swap_spots(x, y, list)
@@ -107,8 +83,5 @@ class MDT_Agency
     list
   end
 
-  def steep
-    @teams = steepest_ascent_hill(@teams)
-  end
 
 end

@@ -1,6 +1,8 @@
+# Stores male and female pair
+
 class Team
 
-  attr_reader :satisfaction, :male_player
+  attr_reader  :male_player
 
   def initialize(male_player, female_player)
     @male_player, @female_player = male_player, female_player
