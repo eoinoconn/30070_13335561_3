@@ -1,0 +1,21 @@
+Question 1 - working
+
+Implemented Player class and MDT_agency class.
+to_s method for MDT_Agency to return a string of the state of the agency.
+
+Question 2 - working
+
+create_teams method sorts male and female players according to efficiency then
+creates list of team objects to store the pairs.
+Added to_s method to team to output team satisfaction.
+Calculated satisfaction with team_satisfaction method in team and satisfaction
+method in player.
+
+Question 3 - working
+
+Added each_player iterator, returns each player suing yield.
+
+Question 4/5 - working
+
+ Implemented steepest ascent as template method in module which is included as
+ a mixin in the MDT_Agency class.
