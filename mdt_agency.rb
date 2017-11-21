@@ -4,12 +4,15 @@
 require_relative 'team'
 require_relative 'steepest_ascent'
 
-class MDT_Agency < SteepestAscent
+class MDT_Agency
 
   def initialize
     @male_players = []
     @female_players = []
   end
+
+  # Mixin to implement steepest hill
+  include SteepestAscent
 
   def add_male_player(player)
     @male_players.push(player)

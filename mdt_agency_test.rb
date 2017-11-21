@@ -36,6 +36,21 @@ class MDTAgencyTest < Test::Unit::TestCase
     assert_equal(@agency.team_fitness, -0.5, 'Fitness incorrect')
   end
 
+  def test_create_team
+    @agency.create_teams
+    @agency.improve_teams
+    assert_equal(-0.5, @agency.team_fitness)
+
+  end
+
+  def test_improve_team
+    add_players()
+    @agency.create_teams
+    @agency.improve_teams
+    assert_equal(-2.5, @agency.team_fitness, "Issue with improve teams")
+
+  end
+
   def test_each_player
     str, str_example = '', ''
     @agency.each_player do |player|
@@ -44,7 +59,11 @@ class MDTAgencyTest < Test::Unit::TestCase
     8.times do |x|
       str_example += ("player#{x}\n")
     end
-    assert_equal(str, str_example, 'Issue with each_player iterator')
+    assert_equal(str_example, str, 'Issue with each_player iterator')
   end
 
+  def add_players
+    @agency.add_male_player(Player.new("deluded", 2, 8))
+    @agency.add_female_player(Player.new("crazy", 3, 6))
+  end
 end

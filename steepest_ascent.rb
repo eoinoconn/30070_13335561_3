@@ -1,6 +1,6 @@
 # Class with template method for SteepestAscent
 
-class SteepestAscent
+module SteepestAscent
 
   def steepest_ascent_hill(list)
     best_fitness = evaluate_fitness(list)
